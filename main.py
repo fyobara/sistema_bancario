@@ -1,5 +1,6 @@
 saldo = 0
 saques_realizados = 0
+operacao = []
 extrato = []
 
 while 1 == 1:
@@ -14,35 +15,40 @@ while 1 == 1:
 
     if opcao == 1:
         print ("Quanto deseja depositar?")
-        deposito = int(input())
+        deposito = float(input())
         if deposito < 0:
             print("Digite uma Valor Válido")
         else:
             saldo = saldo + deposito
-            extrato.append(deposito)
+            operacao.append ("Depósito de: R$")
             print (f"Seu novo saldo e: {saldo}")
+            extrato.append(deposito)
 
 
     elif opcao == 2:
         qtd_saques = 0
         print ("Quanto deseja sacar?")
-        saque = int(input())
+        saque = float(input())
         if saque > saldo:
             print ("Saldo Insuficiente")
-        elif saque > 500:
+        elif saque > 500.00:
             print ("Valor Inválido")
         elif saques_realizados >= 3:
             print ("Muitos Saques por Hoje")
         else:
                 saques_realizados+=1
                 saldo = saldo - saque
-                extrato.append(-saque)
+                extrato.append(saque)
+                operacao.append ("Saque de: R$")
                 print (f"Seu novo saldo e: {saldo}")
             
         
     elif opcao == 3:
         print(f"Seu Saldo e: {saldo}")
-        print(extrato[::])
+
+        for i in range (len (extrato)):
+            print(operacao[i], end="")
+            print(extrato[i])
 
 
     elif opcao == 4:
