@@ -28,12 +28,46 @@ def fun_extrato(saldo, operacao, extrato):
         print(extrato[i])
 
 
+def fun_cadastro(cpf, cadastros):
+    usuario = fun_filtrar_usuarios(cpf, cadastros)
+    if usuario:
+        print("CPF Já Cadastrado, Tente Novamente")
+    else:
+        nome = input("Digite seu Nome")
+        data_nascimento = input("Digite sua Data de Nascimento (dd-mm-aaaa)")
+        endereco = input("Digite seu Endereco (Logradouro-Número-Bairro-Cidade-Estado)")
+        cadastros.append({"cpf": cpf, "nome": nome, "data_nascimento": data_nascimento, "endereco": endereco,})
+        print("Cadastro Realizado")
+        print(cadastros[-1])
+    return cpf, cadastros
+
+
+def fun_filtrar_usuarios (cpf, cadastros):
+    usuarios_filtrados = [usuario for usuario in cadastros if usuario["cpf"] == cpf]
+    return usuarios_filtrados[0] if usuarios_filtrados else None
+
+
+def fun_criar_conta(cpf, cadastros, contas):
+    usuario = fun_filtrar_usuarios(cpf, cadastros)
+    if usuario:
+        conta = len(contas) + 1
+        contas.append({"usuario": usuario, "agencia": "0001", "conta": conta,})
+        print("Conta Criada com Sucesso")
+        print(contas[-1])
+    else:
+        print("Faça seu Cadastro")
+    return cpf, cadastros, contas
+
+
 def main():
 
     saldo = 0
     saques_realizados = 0
     operacao = []
     extrato = []
+    cadastros = []
+    contas = []
+
 
     while True:
 
@@ -66,6 +100,14 @@ def main():
             fun_extrato(saldo, operacao, extrato)
 
         elif opcao == 4:
+            cpf = input("Digite seu CPF")
+            cpf, cadastros = fun_cadastro(cpf, cadastros)
+
+        elif opcao == 5:
+            cpf = input("Digite seu CPF")
+            cpf, cadastros, contas = fun_criar_conta(cpf, cadastros, contas)
+
+        elif opcao == 6:
             break
         else:
             print("Escolha uma Opção Válida")
